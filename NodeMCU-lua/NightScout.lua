@@ -9,7 +9,7 @@
 --          D2 on WIFI NodeMCU -to- SCL on Display
 --         3V3 on WIFI NodeMCU -to- GND on Display
 --         GND on WIFI NodeMCU -to- VCC on Display
---         MicroUSB into -to- 
+--         MicroUSB(plugged into computer or outlet) -to- WIFI NodeMCU USB port
 
 -- Directions:
 -- 1) Wire Display and WIFI NodeMCU as above
@@ -19,7 +19,7 @@
 -- 4) Use(download if needed) "ESPlorer" program to upload this .lua file and init.lua to your NodeMCU
 
 --contants
-NSsite = "sreneescgm.azurewebsites.net" -- Put your azuresite here, ie:  "xxxxxx.azurewebsites.net"
+NSsite = "xxx.azurewebsites.net" -- Put your azuresite here, ie:  "xxxxxx.azurewebsites.net"
 StaleThreshold = 10  -- Number of mins until Stale, and NSData will be displayed old/bg crossed out
 ErrorTimeout = 5 -- Number of mins until NodeMCU is reset due to inability to connect to nightscout site (but IP is available)
 rotateon = 0 --Change this to 1 if you want display rotated (havn't actually tested though)
