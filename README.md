@@ -16,7 +16,7 @@ Displays: NS BG with direction arrow, yellow hihi,high,low,lolo alarms, stale da
 
 # Directions
 1. Download this repo [NodeMCU-NightScoutDisplay](https://github.com/shelsgit/NodeMCU-NightScoutDisplay) and extract the files 
-2. Open the NightSout.lua file: line 20, and change any other constants you want to change in the "--constants" section (starting on line 19)(and save file)
+2. Open the NightSout.lua file: On line 22 change the 'NSSite' constant to your azure site, and change any other constants (like hi and low alarms), in the "--constants" section (and save file)
 3. Open the init.lua file and enter your WIFI info (ip, netmask, gateway, wifissid, wifiPassword) (and save file)
 4. Wire together (solder or use breadboard) the Display and WIFI NodeMCU (see 'Components/Wiring' section above)
 5. Flash the firmware to your NodeMCU, using [NodeMCU-flasher](https://github.com/nodemcu/nodemcu-flasher):
