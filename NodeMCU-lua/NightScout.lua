@@ -85,7 +85,7 @@ conn:on("connection",function(conn, payload)
                       "User-Agent: Mozilla/4.0 (compatible; esp8266 Lua;)"..
                       "\r\n\r\n")
 end)		
-conn:connect(443,'sreneescgm.azurewebsites.net')
+conn:connect(443,NSsite)
 end
 
 function displayNS(nsdatatable,nstimenow,nsdatetime) 
