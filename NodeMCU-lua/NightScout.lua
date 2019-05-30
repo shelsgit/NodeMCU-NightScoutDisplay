@@ -7,8 +7,8 @@
 -- MicroUSB Cable
 -- Wiring:  D1 on WIFI NodeMCU -to- SDA on Display
 --          D2 on WIFI NodeMCU -to- SCL on Display
---         3V3 on WIFI NodeMCU -to- GND on Display
---         GND on WIFI NodeMCU -to- VCC on Display
+--         3V3 on WIFI NodeMCU -to- VCC on Display
+--         GND on WIFI NodeMCU -to- GND on Display
 --         MicroUSB(plugged into computer or outlet) -to- WIFI NodeMCU USB port
 
 -- Directions:
@@ -19,14 +19,14 @@
 -- 4) Use(download if needed) "ESPlorer" program to upload this .lua file and init.lua to your NodeMCU
 
 --contants
-NSsite = "xxx.azurewebsites.net" -- Put your azuresite here, ie:  "xxxxxx.azurewebsites.net"
+NSsite = "xxxxxx.herokuapp.com" -- Put your azuresite here, ie:  "xxxxxx.azurewebsites.net" OR "xxxxxx.herokuapp.com" depending on your provider.
 StaleThreshold = 10  -- Number of mins until Stale, and NSData will be displayed old/bg crossed out
 ErrorTimeout = 5 -- Number of mins until NodeMCU is reset due to inability to connect to nightscout site (but IP is available)
 rotateon = 0 --Change this to 1 if you want display rotated (havn't actually tested though)
-HIHIalm = 220
-HIalm = 165
-LOalm = 76
-LOLOalm = 65
+HIHIalm = 200
+HIalm = 180
+LOalm = 70
+LOLOalm = 60
 
 --functions
 function init_i2c_display()  --initializes display and fonts
@@ -55,14 +55,14 @@ print("Starting Connection..")
 conn=tls.createConnection() 
 conn:on("receive", function(conn, payload) 
     print("In Conn:On, RECEIVE....") 
-	  if payload ~= nil then
+	capture = string.find(payload,"sgv")
+	  if capture ~= nil then
 		nsdatatable = cjson.decode(string.sub(payload,string.find(payload,"\"sgv\":")-1,string.find(payload,"\"cals\":")-3))
 		nstimenow = string.sub(payload,string.find(payload,"\"bgs\":")-15,string.find(payload,"\"bgs\":")-7)   --make it 9 dig being lua max int is 2147483647 (10 dig)
 	    nsdatetime = string.sub(payload,string.find(payload,"\"bgdelta\":")-13,string.find(payload,"\"bgdelta\":")-5)   --make it 9 dig being lua max int is 2147483647 (10 dig)
 	  else 
-		nsdatatable = nil
 		print("Payload is nil")
-	  end
+end
 	  nstimenow = tonumber(nstimenow)
 	  
 	  for k,v in pairs(nsdatatable) do print(k,v) end       
