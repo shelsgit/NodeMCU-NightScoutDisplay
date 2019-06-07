@@ -19,7 +19,7 @@
 -- 4) Use(download if needed) "ESPlorer" program to upload this .lua file and init.lua to your NodeMCU
 
 --contants
-NSsite = "xxxxxx.herokuapp.com" -- Put your azuresite here, ie:  "xxxxxx.azurewebsites.net" OR "xxxxxx.herokuapp.com" depending on your provider.
+NSsite = "xxx.herokuapp.com" -- Put your nightscout website here, ie:  "xxxxxx.azurewebsites.net" OR "xxxxxx.herokuapp.com" depending on your provider.
 StaleThreshold = 10  -- Number of mins until Stale, and NSData will be displayed old/bg crossed out
 ErrorTimeout = 5 -- Number of mins until NodeMCU is reset due to inability to connect to nightscout site (but IP is available)
 rotateon = 0 --Change this to 1 if you want display rotated (havn't actually tested though)
@@ -30,8 +30,8 @@ LOLOalm = 60
 
 --functions
 function init_i2c_display()  --initializes display and fonts
-	local sda = 1 -- SDA Pin, D1/GPIO5
-	local scl = 2 -- SCL Pin, D2/GPIO4
+	local sda = 3 -- SDA Pin, D3/GPIO5 This allows you to use some displays with a direct 4 pin header without any wires
+	local scl = 4 -- SCL Pin, D4/GPIO4
 	local sla = 0x3C
 	i2c.setup(0, sda, scl, i2c.SLOW)
 	disp = u8g.ssd1306_128x64_i2c(sla)
@@ -60,11 +60,13 @@ conn:on("receive", function(conn, payload)
 		nsdatatable = cjson.decode(string.sub(payload,string.find(payload,"\"sgv\":")-1,string.find(payload,"\"cals\":")-3))
 		nstimenow = string.sub(payload,string.find(payload,"\"bgs\":")-15,string.find(payload,"\"bgs\":")-7)   --make it 9 dig being lua max int is 2147483647 (10 dig)
 	    nsdatetime = string.sub(payload,string.find(payload,"\"bgdelta\":")-13,string.find(payload,"\"bgdelta\":")-5)   --make it 9 dig being lua max int is 2147483647 (10 dig)
-	  else 
-		print("Payload is nil")
-end
-	  nstimenow = tonumber(nstimenow)
-	  
+		nstimenow = tonumber(nstimenow)
+		if (nsdatatable["bgdelta"]) >=0 then --this creates a + sign before positive changes, otherwise the value would have no prefix when positive
+		deltapre = "+"
+		else
+		deltapre = ""
+		end
+		
 	  for k,v in pairs(nsdatatable) do print(k,v) end       
 	  print("NStimenow: "..nstimenow) 
 	  print("NSdatetime: "..nsdatetime) 	  
@@ -74,6 +76,11 @@ end
 	  conn=nill
 	  print("Passing NSdatable to displayNS()...")
 	  displayNS(nsdatatable,nstimenow,nsdatetime)
+	  else 
+		print("Payload is nil")
+		payload = nil
+end
+
 end)
 conn:on("connection",function(conn, payload)
       print("In Conn:On, about to SEND....")
@@ -94,7 +101,7 @@ function displayNS(nsdatatable,nstimenow,nsdatetime)
         repeat
 				if (nsdatatable ~= nil) then
 					NS_bg = tonumber(nsdatatable["sgv"])
-					
+				
 					--display NS bg value
 					disp:setFont(u8g.font_fub30n)   --big font
 					if (NS_bg < 100) then 
@@ -133,10 +140,12 @@ function displayNS(nsdatatable,nstimenow,nsdatetime)
 						disp:drawStr(40, 12, "HIGH HIGH")
 					else
 						disp:setFont(u8g.font_6x10)
-						disp:drawStr(0, 12, "                       ") 
+						disp:drawStr(0, 12, "    Freetext    ") --Put a text of your choice here, i.e. name, use spaces to center as desired
+						disp:setFont(u8g.font_6x10)
+						disp:drawStr(96, 12, (deltapre) .. (nsdatatable["bgdelta"])) --displays the delta in the header line
 					end
 												
-					--dipaly arrow (unless uncomputable)   --first is x position from left, next is down from top
+					--display arrow (unless uncomputable)   --first is x position from left, next is down from top
 					if (nsdatatable["trend"] == 1) then                -- DoubleUp, settings good
 						disp:setFont(u8g.font_cursor)
 						disp:drawStr(96, 35, string.char(147,147))
