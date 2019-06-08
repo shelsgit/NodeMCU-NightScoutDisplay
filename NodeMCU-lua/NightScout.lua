@@ -5,8 +5,8 @@
 -- Display: 0.96" Inch Yellow Blue I2c IIC Serial Oled LCD LED Module 12864 128X64 -- https://www.amazon.com/Diymall-Yellow-Serial-Arduino-Display/dp/B00O2LLT30
 -- WIFI NodeMCU: NodeMCU LUA ESP8266 -- http://www.ebay.co.uk/itm/NodeMCU-LUA-WIFI-Internet-Development-Board-Based-on-ESP8266-/291505733201?hash=item43df187e51:g:iikAAOSwHPlWeoBr
 -- MicroUSB Cable
--- Wiring:  D1 on WIFI NodeMCU -to- SDA on Display
---          D2 on WIFI NodeMCU -to- SCL on Display
+-- Wiring:  D3 on WIFI NodeMCU -to- SDA on Display
+--          D4 on WIFI NodeMCU -to- SCL on Display
 --         3V3 on WIFI NodeMCU -to- VCC on Display
 --         GND on WIFI NodeMCU -to- GND on Display
 --         MicroUSB(plugged into computer or outlet) -to- WIFI NodeMCU USB port
@@ -46,7 +46,7 @@ function init_loaddisplay()  --
 	disp:firstPage()
     repeat
 		disp:setFont(u8g.font_6x10)
-		disp:drawStr(40, 11, "Loading...")
+		disp:drawStr(40, 20, "Loading...")
 	until disp:nextPage() == false
 end
 
