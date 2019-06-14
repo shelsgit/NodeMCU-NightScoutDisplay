@@ -9,8 +9,8 @@ Displays: NS BG with direction arrow, yellow hihi,high,low,lolo alarms, stale da
 * Wiring:<br />
 ** D1 on WIFI NodeMCU -to- SDA on Display<br />
 ** D2 on WIFI NodeMCU -to- SCL on Display<br />
-** 3V3 on WIFI NodeMCU -to- GND on Display<br />
-** GND on WIFI NodeMCU -to- VCC on Display<br />
+** 3V3 on WIFI NodeMCU -to- VCC on Display<br />
+** GND on WIFI NodeMCU -to- GND on Display<br />
 ** MicroUSB(powered/plugged into wall or computer, ect) -to- WIFI NodeMCU USB port<br />
 * wifi is required<br />
 
@@ -37,6 +37,8 @@ Displays: NS BG with direction arrow, yellow hihi,high,low,lolo alarms, stale da
    * Click the reset button on the NodeMCU
    * Click the 'Upload button' and upload the (2) lua files (from this repo, which you downloaded in step1: /NodeMCU-lua/NightScout.lua and /NodeMCU-lua/init.lua)
    * Click the reset button on the NodeMCU (you should see "WiFi connection established, IP address: " and "You have 5 seconds to abort", and more ongoing scrolling messages afterwards to know it's working, and ready to unplug and use wherever you want to put it that has a wifi connection)
+
+![Glucose display](https://github.com/Arakon/NodeMCU-NightScoutDisplay/blob/master/IMG_20190614_173109.jpg)
 
 # Disclaimer, Known Issues
 This project is for research only.  Don't use it for any medical decisions.<br />
