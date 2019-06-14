@@ -158,9 +158,9 @@ function displayNS(nsdatatable,nstimenow,nsdatetime)
 					elseif (nsdatatable["trend"] == 4)  then            -- Flat, settings good
 						disp:setFont(u8g.font_cursor)
 						disp:drawStr(106, 46, string.char(145))
-					elseif (nsdatatable["trend"] == 5)  then            -- 45Down, settings good, pic not an arrow though!
+					elseif (nsdatatable["trend"] == 5)  then            -- 45Down, settings good, rotated 45up arrow
 						disp:setFont(u8g.font_cursor)
-						disp:drawStr(106, 50, string.char(119))
+						disp:drawStr90(106, 54, string.char(77))
 					elseif (nsdatatable["trend"] == 6)  then            -- SingleDown, settings good
 						disp:setFont(u8g.font_cursor)
 						disp:drawStr(96, 54, string.char(139))
